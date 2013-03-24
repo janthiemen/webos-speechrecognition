@@ -1,0 +1,12 @@
+{
+	"id": "nl.kappline.pocketsphinx.service",
+	"description": "Pocketsphinx speechrecognition service for webOS",
+	"services": [ {
+		"name": "nl.kappline.pocketsphinx.service",
+		"description": "Pocketsphinx Service",
+		"commands": [ { 
+				"name": "getFortune", 
+				"assistant": "GetFortuneAssistant",
+				"public": true } ] 
+	} ]
+}

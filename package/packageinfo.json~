@@ -1,0 +1,12 @@
+{
+  "id": "nl.kappline.pocketsphinx",
+  "package_format_version": 2,
+  "loc_name": "fortune",
+  "version": "1.0.0",
+  "icon": "icon.png",
+  "miniicon": "icon.png",
+  "vendor": "KappLine.nl",
+  "vendorurl": "kappline.nl",
+  "app": "nl.kappline.pocketsphinx",
+  "services": ["nl.kappline.pocketsphinx.service"]
+}

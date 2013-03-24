@@ -1,0 +1,10 @@
+{
+    "id": "nl.kappline.pocketsphinx",
+    "version": "0.1.0",
+    "vendor": "HP",
+    "type": "web",
+    "main": "index.html",
+    "title": "Pocketsphinx for webos",
+    "icon": "microphone.png",
+    "uiRevision": 2
+}

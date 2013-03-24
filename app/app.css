@@ -1,0 +1,7 @@
+.fortuneCookie {
+	padding: 20px;
+	font-size: 22pt;
+	font-style: italic;
+	/* white-space: pre-wrap; */
+	overflow: hidden;
+}
