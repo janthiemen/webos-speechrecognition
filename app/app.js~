@@ -1,44 +1,52 @@
 /*
- * TxJS 2011 Sample
+ * Speech recognition, recording and service call
+ * Pocketsphinx is in the service dir. It's called from there.
+ * The service copies the recorded file from /media/internal/pocketsphinx/temp/data.wav to the service's data/data.wav
  *
- * Fortune Cookie
+ * The actual recognition is done by pocketsphinx_batch, part of CMU sphinx (http://cmusphinx.sourceforge.net/), wich is released under the BSD license. 
+ * The audio recording is based on the MediaCapture sample from the sdk (BSD license) and the Palm txjs-fortunecookie sample (https://github.com/palm/txjs-fortunecookie, BSD license).
  *
- * Fortune Cookie image taken from http://commons.wikimedia.org/wiki/File:Fortune_cookie.jpg, 
- * used under CC 3.0 Attribution Share Alike license.
- *
- * Fortune Cookie database from https://github.com/bmc/fortunes/, 
- * fetched from https://raw.github.com/bmc/fortunes/master/fortunes
+ * This app is distributed as is, under the BSD license.
+
+Copyright (c) 2013, KappLine.nl
+All rights reserved.
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the University of California, Berkeley nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS "AS IS" AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE REGENTS AND CONTRIBUTORS BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
  */
 
  enyo.kind({
 	name: "FortuneCookieApp",
 	kind: "VFlexBox",
 	components: [
-		// { kind: "LocalFortunes", name: "fortunes" },
-		// { kind: "FortuneJar", name: "fortunes" },
 		{ kind: "FortuneService", name: "fortunes" },
-		// { kind: "Header", content: "TxJS 2011 - Fortune Cookie" },
+		{ kind: "Header", content: "Pocketsphinx for webOS - speech recognition" },
 		
 		{kind: "enyo.MediaCapture", name: "mediaCaptureSound", onInitialized: "loadMediaCap", onLoaded: "mediaCapLoaded",onError: "someErrorOccured",onAudioCaptureComplete:"captureComplete"},
 		{kind: "ApplicationEvents", onLoad: "onLoad"},
-		
-		//{ kind: "HFlexBox", flex: 1, components: [
-		//	{ kind: "Image", src: "Fortune_cookie_320x320.png", 
-		//	  style: "padding: 10px" },
-			{ kind: "HtmlContent", name: "output", flex: 1, 
-			  className: "fortuneCookie", 
-			  content: "Press record, to record your audio. " +
-			           "Press again to recognise it." }, //] },
+		{kind: "HtmlContent", name: "output", flex: 1, className: "fortuneCookie", content: "Press record, to record your audio. Press again to recognise it." },
 		{kind: "Button", name:"recordSoundButton",className: "enyo-button-negative",caption: "Record",  onclick: "recordClicked"},
-		//{ kind: "Button", caption: "Recognise speech", 
-		//  onclick: "showNewFortune" }
 	],
-	//showNewFortune: function() {
-	//	this.$.fortunes.fetchNewFortune(enyo.bind(this, 
-	//		function(fortune) { 
-	//		  this.$.output.setContent(fortune); }));
-	//},
-	
 	
 	onLoad: function(){	
 		this.load();
@@ -93,6 +101,7 @@
 			this.$.mediaCaptureSound.stopAudioCapture();
 			window.clearInterval(this.timer);
 			
+			this.$.output.setContent("Recognising ..."); 
 			this.$.fortunes.fetchNewFortune(enyo.bind(this, 
 			function(fortune) { 
 				this.$.output.setContent(fortune); 
